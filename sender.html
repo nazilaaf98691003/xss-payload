@@ -1,1 +1,9 @@
 
+<!DOCTYPE html>
+<html>
+<script>
+setTimeout(function() {
+  window.parent.frames[0].postMessage("document.body.style.background='red'", '*');
+}, 3000);
+</script>
+</html>
